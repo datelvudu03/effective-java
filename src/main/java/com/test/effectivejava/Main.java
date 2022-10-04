@@ -30,7 +30,8 @@ public class Main {
     public static void sumaAge(List<Dog> dogList){
         BigDecimal suma = new BigDecimal(0.0) ;
         for (Dog dog: dogList) {
-            BigDecimal weight = new BigDecimal(dog.getWeight());
+            //BigDecimal weight = new BigDecimal(dog.getWeight());
+            BigDecimal weight = BigDecimal.valueOf(dog.getWeight());
             suma = suma.add(weight);
             System.out.println(weight);
         }
