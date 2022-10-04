@@ -6,11 +6,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Dog {
-
-
-        private String name,race;
+        private String name;
+        private String race;
         private int age;
-
-
+        private double weight;
 }
