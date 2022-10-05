@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Movie {
     private String name;
-    private double rating;
+    private BigDecimal rating;
 }

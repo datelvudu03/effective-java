@@ -3,6 +3,7 @@ package com.test.effectivejava;
 import com.test.effectivejava.pojo.Movie;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -25,24 +26,25 @@ public class Main3 {
             listOfMovies.stream()
                     .map(e -> e.split(","))
                     .filter(e->!e[0].equalsIgnoreCase("movie"))
-                    .map(e -> niceListOfMovie.add(new Movie(e[0],Double.parseDouble(e[1]))))
-                    //.map(e -> totalRating.add(BigDecimal.valueOf(e[1])))
+                    .map(e -> niceListOfMovie.add(new Movie(e[0],BigDecimal.valueOf(Double.parseDouble(e[1])))))
                     .collect(Collectors.toList());
+
             /////////////////////////////
             System.out.println(getListOfMovies(niceListOfMovie));
             System.out.println(getBestMovie(niceListOfMovie));
             System.out.println(getWorstMovie(niceListOfMovie));
             System.out.println(getAverageRating(niceListOfMovie));
+
         }catch (Exception e){
             System.out.println(e);
         }
 
     }
-
     private static BigDecimal getAverageRating(List<Movie> movieList) {
-        BigDecimal result = BigDecimal.ZERO;
-        movieList.forEach(movie -> result.add(BigDecimal.valueOf(movie.getRating())));
-        return result;
+        return movieList.stream()
+                .map(Movie::getRating)
+                .reduce(BigDecimal.valueOf(0),BigDecimal::add)
+                .divide(BigDecimal.valueOf(movieList.size()),1, RoundingMode.HALF_EVEN);
     }
 
     public static List<String> getListOfMovies(List<Movie> movieList){
@@ -52,13 +54,13 @@ public class Main3 {
     }
     public static String getBestMovie(List<Movie> movieList){
         return movieList.stream()
-                .max(Comparator.comparingDouble(Movie::getRating))
+                .max(Comparator.comparing(Movie::getRating))
                 .get()
                 .getName();
     }
     private static String getWorstMovie(List<Movie> movieList) {
-        return movieList.stream()
-                .min(Comparator.comparingDouble(Movie::getRating))
+        //Optional get() without isPresent???
+        return movieList.stream().min(Comparator.comparing(Movie::getRating))
                 .get()
                 .getName();
     }
