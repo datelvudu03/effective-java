@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class Main2 {
     public static void main(String[] args) {
+
         Path filePath = Paths.get("C:\\Users\\datel\\Desktop\\demo.csv");
         Charset charset = StandardCharsets.UTF_8;
         String bestFilm = null;
@@ -23,7 +24,7 @@ public class Main2 {
         BigDecimal worstRating = null;
         BigDecimal avrRating;
 
-        HashMap<String,BigDecimal> filmList = new HashMap<>();
+        Map<String,BigDecimal> filmList = new HashMap<>();
         try{
             List<String> listOfMovies = Files.readAllLines(filePath,charset);
             int movieCount = 0;
@@ -38,7 +39,8 @@ public class Main2 {
                     bestRating = BigDecimal.valueOf(Double.parseDouble(splitLine[1]));
                     worstRating = BigDecimal.valueOf(Double.parseDouble(splitLine[1]));
                 }
-                ++movieCount;
+
+                movieCount++;
                 filmList.put(splitLine[0], BigDecimal.valueOf(Double.parseDouble(splitLine[1])));
                 bestRating = bestRating.max(BigDecimal.valueOf(Double.parseDouble(splitLine[1])));
                 worstRating = worstRating.min(BigDecimal.valueOf(Double.parseDouble(splitLine[1])));
@@ -61,9 +63,6 @@ public class Main2 {
             System.out.println("The average rating is: " + avrRating);
             System.out.println("Best movie: " + bestFilm);
             System.out.println("Worst movie: " + worstFilm);
-
-
-
         }catch (IOException e){
             System.out.println(e);
         }
